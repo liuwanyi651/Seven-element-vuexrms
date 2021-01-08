@@ -1,0 +1,40 @@
+import http from './index'
+
+export default {
+  // 登录接口
+  login({ username, password }) {
+    return http.post('/login', {
+      username,
+      password
+    })
+  },
+  // 用户数据列表
+  getUsers({ pagenum, pagesize, query }) {
+    if (query) {
+      return http.get(`/users?pagenum=${pagenum}&pagesize=${pagesize}&query=${query}`)
+    } else {
+      return http.get(`/users?pagenum=${pagenum}&pagesize=${pagesize}`)
+    }
+  },
+  // 左侧菜单权限
+  getMenus() {
+    return http.get(`menus`)
+  },
+  // 修改用户状态
+  putUserState({ uId, type }) {
+    return http.put(`users/${uId}/state/${type}`)
+  },
+  // 添加用户
+  addUserList({ username, password, email, mobile }) {
+    return http.post('/users', {
+      username,
+      password,
+      email,
+      mobile
+    })
+  },
+  //删除用户
+  deleUser({ id }) {
+    return http.delete(`users/${id}`)
+  }
+}
