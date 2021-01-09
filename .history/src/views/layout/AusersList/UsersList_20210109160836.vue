@@ -127,7 +127,7 @@
     <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%" @close="editDialogClosed">
       <!--修改用户对话框的主体部分-->
       <el-form
-        :model="message"
+        :model="eidtForm"
         :rules="eidtFormRules"
         ref="eidtFormRef"
         label-width="70px"
@@ -145,7 +145,7 @@
       <!--修改用户对话框的底部 确定 取消-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editUser">确 定</el-button>
+        <el-button type="primary" @click="editUserInfo">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -207,6 +207,8 @@ export default {
       },
        // 控制修改用户的对话框的显示与隐藏
       editDialogVisible: false,
+      // 查询到的用户信息对象
+      eidtForm:{},
       // 修改表单的验证规则对象
       eidtFormRules:{
          email: [
@@ -302,22 +304,9 @@ export default {
       this.$refs.eidtFormRef.resetFields()
     },
     //修改用户信息并提交 
-    editUser(){
+    editUserInfo(){
       this.$refs.eidtFormRef.validate(valid=>{
-        if (!valid) {
-          return;
-        } else {
-          // 可以发起修改用户的请求
-          this.editUserInfo(this.message);
-          // 关闭对话框
-          this.editDialogVisible = false;
-          // 刷新数据列表
-          this.getUsers({
-            query: "",
-            pagenum: this.pagenum,
-            pagesize: this.pagesize,
-          });
-        }
+        console.log(valid);
       })
     },
 

@@ -38,7 +38,7 @@ export default {
     return http.get(`users/${id}`)
   },
   //编辑用户提交
-  editUserInfo({id,email,mobile}){
+    ({id,email,mobile}){
     return http.put( `users/${id}`, {
       email:email,
       mobile:mobile
@@ -47,13 +47,5 @@ export default {
   //根据id删除用户
   deleUser({ id }) {
     return http.delete(`users/${id}`)
-  },
-  //权限管理 所有权限列表
-  getRights(){
-    return http.get(`rights/list`)
-  },
-  //角色列表
-  getRoles(){
-    return http.get(`roles`)
   }
 }

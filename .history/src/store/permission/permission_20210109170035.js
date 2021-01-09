@@ -77,45 +77,5 @@ export default {
         Message.error(res.meta.msg)
       }
     },
-    // 添加用户
-    async addUserList(_, params) {
-      let res = await api.addUserList(params)
-      if (res.meta.status === 201) {
-        console.log(res);
-        Message.success(res.meta.msg)
-      } else {
-        Message.error(res.meta.msg)
-      }
-    },
-    //根据用户ID获取数据
-    async getIdMsg({ commit }, params) {
-      let res = await api.getIdMsg(params);
-      if (res.meta.status === 200) {
-        console.log(res.data)
-        commit("setmessage", res.data);
-        Message.success(res.meta.msg)
-      } else {
-        Message.error(res.meta.msg);
-      }
-    },
-    //修改用户信息
-    async editUserInfo(_, params) {
-      let res = await api.editUserInfo(params);
-      if (res.meta.status === 200) {
-        Message.success(res.meta.msg);
-      } else {
-        Message.error(res.meta.msg);
-      }
-    },
-    // 删除单个用户
-    async deleUser(_, params) {
-      let res = await api.deleUser(params)
-      if (res.meta.status === 200) {
-        console.log(res);
-        Message.success(res.meta.msg)
-      } else {
-        Message.error(res.meta.msg)
-      }
-    },
   }
 }

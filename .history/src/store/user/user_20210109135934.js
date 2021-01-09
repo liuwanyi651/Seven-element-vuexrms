@@ -8,9 +8,8 @@ export default {
   state: {
     users: [],
     menus: [],
-    message:{},
+    infoid:[],
   },
-  // 修改数据
   mutations: {
     setUsers(state, data) {
       state.users = data
@@ -19,7 +18,7 @@ export default {
       state.menus = data
     },
     setmessage(state,data){
-      state.message = data
+      state.infoid = data
     }
   },
   actions: {
@@ -74,7 +73,7 @@ export default {
         // console.log(res);
         Message.success(res.meta.msg)
       } else {
-        Message.error(res.meta.msg)
+        Message.error('设置状态失败')
       }
     },
     // 添加用户
@@ -84,7 +83,7 @@ export default {
         console.log(res);
         Message.success(res.meta.msg)
       } else {
-        Message.error(res.meta.msg)
+        Message.error('用户创建失败')
       }
     },
     //根据用户ID获取数据
@@ -93,7 +92,6 @@ export default {
       if (res.meta.status === 200) {
         console.log(res.data)
         commit("setmessage", res.data);
-        Message.success(res.meta.msg)
       } else {
         Message.error(res.meta.msg);
       }
@@ -104,7 +102,7 @@ export default {
       if (res.meta.status === 200) {
         Message.success(res.meta.msg);
       } else {
-        Message.error(res.meta.msg);
+        Message.error('更新失败');
       }
     },
     // 删除单个用户
@@ -114,7 +112,7 @@ export default {
         console.log(res);
         Message.success(res.meta.msg)
       } else {
-        Message.error(res.meta.msg)
+        Message.error('删除用户失败')
       }
     },
   }

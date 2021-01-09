@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-menu  router v-for="(item, index) in menus" :key="index" :default-active="activepath"
+    <el-menu default-active="index" router v-for="(item, index) in menus" :key="index" :default-active="activepath"
  unique-opened>
       <!--一级菜单--->
       <el-menu-item index="/" v-if="!item.children">
@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       icon1:['el-icon-tickets','el-icon-edit', 'el-icon-film','el-icon-coin','el-icon-shopping-cart-full','el-icon-edit'
-      ],
+      ]
       activepath:''
     };
   },

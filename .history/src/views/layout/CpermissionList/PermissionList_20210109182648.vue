@@ -8,18 +8,14 @@
     </el-breadcrumb>
     <!--卡片视图-->
     <el-card>
-      <el-table :data="rights" stripe border>
+      <el-table :data="rights" stripe style="width: 100%">
         <el-table-column type="index"></el-table-column>
-        <el-table-column label="权限名称" prop="authName"></el-table-column>
-        <el-table-column label="路径" prop="path"></el-table-column>
-        <el-table-column lable="权限等级" prop="level">
-          <template slot-scope="scope">
-           <el-tag v-if="scope.row.level === '0'">标签一</el-tag>
-           <el-tag type="success" v-else-if="scope.row.level === '1'">标签二</el-tag>
-           <el-tag type="warning" v-else>标签三</el-tag>
-          </template>
-        </el-table-column>
+        <el-table-column lable="权限名称" prop="authName"></el-table-column>
+        <el-table-column lable="路径" prop="path"></el-table-column>
+        <el-table-column lable="权限等级" prop="level"></el-table-column>
       </el-table>
+
+     
     </el-card>
   </div>
 </template>

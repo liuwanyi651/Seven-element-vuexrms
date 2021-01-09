@@ -15,7 +15,7 @@
         </el-col>
       </el-row>
      <!--角色列表区域--> 
-     <el-table :data="roles" stripe border>
+     <el-table :data="rights" stripe border>
         <el-table-column type="index"></el-table-column>
         <el-table-column label="职位" prop="roleDesc"></el-table-column>
         <el-table-column label="描述" prop="roleName"></el-table-column>

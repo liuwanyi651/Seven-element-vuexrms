@@ -124,12 +124,12 @@
       </span>
     </el-dialog>
     <!--修改用户的对话框-->
-    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%" @close="editDialogClosed">
+    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%">
       <!--修改用户对话框的主体部分-->
       <el-form
-        :model="message"
-        :rules="eidtFormRules"
-        ref="eidtFormRef"
+        :model="eidtForm"
+        :rules="eidtFormFormRules"
+        ref="eidtFormFormRef"
         label-width="70px"
       >
         <el-form-item label="用户名" >
@@ -145,7 +145,7 @@
       <!--修改用户对话框的底部 确定 取消-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editUser">确 定</el-button>
+        <el-button type="primary" @click="editDialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -207,8 +207,10 @@ export default {
       },
        // 控制修改用户的对话框的显示与隐藏
       editDialogVisible: false,
+      // 查询到的用户信息对象
+      eidtForm:{},
       // 修改表单的验证规则对象
-      eidtFormRules:{
+      eidtFormFormRules:{
          email: [
           { required: true, message: "请输入邮箱", trigger: "blur" },
           { type: "email", message: "请输入正确的邮箱地址", trigger: "blur" },
@@ -290,35 +292,12 @@ export default {
         }
       });
     },
-    // 展示编辑用户的对话框 
+    // 展示编辑用户的对话框
     showEidtDialog(id) {
       // console.log(id); 拿到不同用户的id 500
       // 调用 根据ID 查询用户信息的请求
       this.getIdMsg({ id: id });
       this.editDialogVisible = true;
-    },
-    // 监听修改用户对话框的关闭事件
-    editDialogClosed(){
-      this.$refs.eidtFormRef.resetFields()
-    },
-    //修改用户信息并提交 
-    editUser(){
-      this.$refs.eidtFormRef.validate(valid=>{
-        if (!valid) {
-          return;
-        } else {
-          // 可以发起修改用户的请求
-          this.editUserInfo(this.message);
-          // 关闭对话框
-          this.editDialogVisible = false;
-          // 刷新数据列表
-          this.getUsers({
-            query: "",
-            pagenum: this.pagenum,
-            pagesize: this.pagesize,
-          });
-        }
-      })
     },
 
     // 根据id删除相对应的用户信息

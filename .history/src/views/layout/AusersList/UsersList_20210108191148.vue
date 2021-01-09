@@ -45,12 +45,7 @@
               placement="top"
               :enterable="false"
             >
-              <el-button
-                type="primary"
-                icon="el-icon-edit"
-                size="mini"
-                @click="showEidtDialog(scope.row.id)"
-              ></el-button>
+              <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
             </el-tooltip>
             <!--删除按钮-->
             <el-tooltip
@@ -123,31 +118,6 @@
         <el-button type="primary" @click="addUser">确 定</el-button>
       </span>
     </el-dialog>
-    <!--修改用户的对话框-->
-    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%" @close="editDialogClosed">
-      <!--修改用户对话框的主体部分-->
-      <el-form
-        :model="message"
-        :rules="eidtFormRules"
-        ref="eidtFormRef"
-        label-width="70px"
-      >
-        <el-form-item label="用户名" >
-          <el-input v-model="message.username" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input v-model="message.email" ></el-input>
-        </el-form-item>
-        <el-form-item label="手机号" prop="mobile">
-          <el-input v-model="message.mobile" ></el-input>
-        </el-form-item>
-      </el-form>
-      <!--修改用户对话框的底部 确定 取消-->
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editUser">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -205,30 +175,10 @@ export default {
           { validator: checkMobile, trigger: "blur" },
         ],
       },
-       // 控制修改用户的对话框的显示与隐藏
-      editDialogVisible: false,
-      // 修改表单的验证规则对象
-      eidtFormRules:{
-         email: [
-          { required: true, message: "请输入邮箱", trigger: "blur" },
-          { type: "email", message: "请输入正确的邮箱地址", trigger: "blur" },
-        ],
-        mobile: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
-          { validator: checkMobile, trigger: "blur" },
-        ],
-      }
     };
   },
   methods: {
-    ...userActions([
-      "getUsers",
-      "putUserState",
-      "addUserList",
-      "deleUser",
-      "editUserInfo",
-      "getIdMsg",
-    ]),
+    ...userActions(["getUsers", "putUserState", "addUserList", "deleUser","editUserInfo"]),
 
     //监听 pageSize 改变时会触发 每页条数
     handleSizeChange(newSize) {
@@ -290,37 +240,6 @@ export default {
         }
       });
     },
-    // 展示编辑用户的对话框 
-    showEidtDialog(id) {
-      // console.log(id); 拿到不同用户的id 500
-      // 调用 根据ID 查询用户信息的请求
-      this.getIdMsg({ id: id });
-      this.editDialogVisible = true;
-    },
-    // 监听修改用户对话框的关闭事件
-    editDialogClosed(){
-      this.$refs.eidtFormRef.resetFields()
-    },
-    //修改用户信息并提交 
-    editUser(){
-      this.$refs.eidtFormRef.validate(valid=>{
-        if (!valid) {
-          return;
-        } else {
-          // 可以发起修改用户的请求
-          this.editUserInfo(this.message);
-          // 关闭对话框
-          this.editDialogVisible = false;
-          // 刷新数据列表
-          this.getUsers({
-            query: "",
-            pagenum: this.pagenum,
-            pagesize: this.pagesize,
-          });
-        }
-      })
-    },
-
     // 根据id删除相对应的用户信息
     async deleUserId(id) {
       // 弹框询问用户是否删除数据
@@ -358,7 +277,7 @@ export default {
   },
   watch: {},
   computed: {
-    ...userState(["users", "message"]),
+    ...userState(["users","infoid"]),
   },
 };
 </script>

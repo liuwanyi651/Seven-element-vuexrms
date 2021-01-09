@@ -12,11 +12,48 @@
         <el-table-column type="index"></el-table-column>
         <el-table-column label="权限名称" prop="authName"></el-table-column>
         <el-table-column label="路径" prop="path"></el-table-column>
-        <el-table-column lable="权限等级" prop="level">
+
+        <el-table-column label="操作" width="180px">
           <template slot-scope="scope">
-           <el-tag v-if="scope.row.level === '0'">标签一</el-tag>
-           <el-tag type="success" v-else-if="scope.row.level === '1'">标签二</el-tag>
-           <el-tag type="warning" v-else>标签三</el-tag>
+            <!-- {{ scope.row }} 拿到每一项的数据-->
+            <!--修改按钮-->
+            <!--el-tooltip 文字提示-->
+            <el-tooltip
+              effect="dark"
+              content="修改角色"
+              placement="top"
+              :enterable="false"
+            >
+              <el-button
+                type="primary"
+                icon="el-icon-edit"
+                size="mini"
+                @click="showEidtDialog(scope.row.id)"
+              ></el-button>
+            </el-tooltip>
+            <!--删除按钮-->
+            <el-tooltip
+              effect="dark"
+              content="删除角色"
+              placement="top"
+              :enterable="false"
+            >
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="mini"
+                @click="deleUserId(scope.row.id)"
+              ></el-button>
+            </el-tooltip>
+            <!--分配角色按钮-->
+            <el-tooltip
+              effect="dark"
+              content="分配角色"
+              placement="top"
+              :enterable="false"
+            >
+              <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
