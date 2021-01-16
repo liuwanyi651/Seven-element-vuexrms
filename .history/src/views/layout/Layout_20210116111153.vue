@@ -84,7 +84,6 @@ export default {
       // console.log(e);
     },
     del(e) {
-      console.log(66666,e)
       //删除
       //删除最后一个
       if (this.rigtarr.length - 1 == e && this.rigtarr.length != 1) {

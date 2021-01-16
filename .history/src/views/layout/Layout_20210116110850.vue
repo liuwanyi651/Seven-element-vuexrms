@@ -80,11 +80,9 @@ export default {
       localStorage.setItem("activename", this.activename);
       localStorage.setItem("rigtarr", JSON.stringify(this.rigtarr));
       this.$router.push(this.activename); //跳路由
-      console.log(444,this.activename);
       // console.log(e);
     },
     del(e) {
-      console.log(66666,e)
       //删除
       //删除最后一个
       if (this.rigtarr.length - 1 == e && this.rigtarr.length != 1) {

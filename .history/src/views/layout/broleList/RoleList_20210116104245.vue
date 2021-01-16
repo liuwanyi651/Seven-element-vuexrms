@@ -323,7 +323,6 @@ export default {
         this.getRoles();
       }
     },
-    // 通过id删除指定权限的请求
     del() {
       this.deleRolesLimit({
         roleId: this.roleIda,
@@ -341,8 +340,8 @@ export default {
           console.log(row, item, index);
           this.roleIda = row.id;
           this.rightId = item[index].id;
-          item.splice(index, 1);
           this.del();
+          item.splice(index, 1);
         })
         .catch(() => {
           this.$message({

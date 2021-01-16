@@ -397,7 +397,7 @@ export default {
   watch: {},
   computed: {
     //展开运算得到vuex中state的对应方法的值显示出来
-    ...userState(["roles", "updateUser", "rightstree"]),
+    ...userState([, "updateUser", "rightstree"]),
   },
 };
 </script>

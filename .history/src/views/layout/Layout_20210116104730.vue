@@ -6,29 +6,52 @@
     <div class="contentContainer">
       <div class="leftSide">
         <div id="left">
-          <el-menu :default-active="activename" class="el-menu-vertical-demo"  router  unique-opened>
-            <el-submenu :index="`${item.path}`"  v-for="(item, index) in menus" :key="index">
+          <el-menu
+            :default-active="activename"
+            class="el-menu-vertical-demo"
+            router
+            unique-opened
+          >
+            <el-submenu
+              :index="`${item.path}`"
+              v-for="(item, index) in menus"
+              :key="index"
+            >
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span>{{ item.authName }}</span>
               </template>
+
               <el-menu-item-group v-for="(item1, index1) in item.children" :key="index1">
-                <el-menu-item :index="`${item1.path}`" @click="jump(item1)">{{item1.authName}}</el-menu-item>
+                <el-menu-item :index="`${item1.path}`" @click="jump(item1)">{{
+                  item1.authName
+                }}</el-menu-item>
               </el-menu-item-group>
-            </el-submenu>
-            </el-menu>
+            </el-submenu></el-menu
+          >
         </div>
       </div>
       <div class="main">
         <div class="df">
-          <!--拖拽插件-->
           <draggable v-model="rigtarr" draggable=".one">
             <transition-group class="df">
-              <div class="one" :class="activename == item.path ? 'two' : 'one'" v-for="(item, index) in rigtarr" :key="index"
-                @click="jump(item)">
+              <div
+                class="one"
+                :class="activename == item.path ? 'two' : 'one'"
+                v-for="(item, index) in rigtarr"
+                :key="index"
+                @click="jump(item)"
+              >
                 <div>{{ item.authName }}</div>
-                <div @click.stop="del(index)" :class="item.path == activename ? '' : 'aaa'">
-                  <i :class=" item.path == '/' && rigtarr.length == 1 ? '' : 'el-icon-close'"></i>
+                <div
+                  @click.stop="del(index)"
+                  :class="item.path == activename ? '' : 'aaa'"
+                >
+                  <i
+                    :class="
+                      item.path == '/' && rigtarr.length == 1 ? '' : 'el-icon-close'
+                    "
+                  ></i>
                 </div>
               </div>
             </transition-group>
@@ -65,26 +88,28 @@ export default {
     ...userActions(["getMenus"]),
     getdata() {
       this.getMenus();
+
       this.rigtarr = JSON.parse(localStorage.getItem("rigtarr")) || []; //获取缓存 右侧
       this.activename = localStorage.getItem("activename") || ""; // 获取索引
     },
     jump(e) {
       //判断是否重复
-      console.log(555,e);
+      // console.log(e);
       let falge = true;
       this.rigtarr.map((v) => {
         v.path == e.path ? (falge = false) : "";
       });
+
       falge ? this.rigtarr.push(e) : "";
+
       this.activename = e.path;
+
       localStorage.setItem("activename", this.activename);
       localStorage.setItem("rigtarr", JSON.stringify(this.rigtarr));
       this.$router.push(this.activename); //跳路由
-      console.log(444,this.activename);
       // console.log(e);
     },
     del(e) {
-      console.log(66666,e)
       //删除
       //删除最后一个
       if (this.rigtarr.length - 1 == e && this.rigtarr.length != 1) {
@@ -102,7 +127,12 @@ export default {
         this.activename = this.rigtarr[e].path;
         this.jump(this.rigtarr[e + 1]);
       }
-        this.rigtarr.splice(e, 1); //删除数组元素
+
+      this.rigtarr.splice(e, 1); //删除数组元素
+
+      // localStorage.setItem("activename", this.activename);
+
+      // localStorage.setItem("rigtarr", JSON.stringify(this.rigtarr));
     },
   },
   mounted() {

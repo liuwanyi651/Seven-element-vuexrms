@@ -26,6 +26,10 @@ export default {
     setUpdateUser(state, data) {
       state.updateUser = data
     },
+    delectRoles(state, data) {
+      state.roles = data
+      console.log(state, data);
+    },
     // 所有权限列表 tree 树状显示权限
     setrightstree(state, data) {
       state.rightstree = data
@@ -97,7 +101,7 @@ export default {
         Message.error(res.meta.msg)
       }
     },
-    // 角色授权 分配权限
+    // 色授权 分配权限
     async roleAuthor(_, params) {
       let res = await api.roleAuthor(params)
       if (res.meta.status === 200) {
@@ -111,8 +115,7 @@ export default {
     async deleRolesLimit(_, params) {
       let res = await api.deleRolesLimit(params)
       if (res.meta.status === 200) {
-        console.log(res);
-        Message.success('删除权限成功');
+        Message.success(res.meta.msg)
       } else {
         Message.error(res.meta.msg)
       }

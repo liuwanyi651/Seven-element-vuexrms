@@ -111,8 +111,7 @@ export default {
     async deleRolesLimit(_, params) {
       let res = await api.deleRolesLimit(params)
       if (res.meta.status === 200) {
-        console.log(res);
-        Message.success('删除权限成功');
+        Message.success(res.meta.msg)
       } else {
         Message.error(res.meta.msg)
       }

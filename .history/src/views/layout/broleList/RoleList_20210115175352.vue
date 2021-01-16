@@ -31,7 +31,16 @@
               <el-col :span="5">
                 <el-tag
                   closable
-                  @close="removeRightById(scope.row, scope.row.children, index1)"
+                  @close="
+                    removeRightById(
+                      scope.row,
+                      item1.id,
+                      scope.$index,
+                      index1,
+                      index2,
+                      index3
+                    )
+                  "
                 >
                   {{ item1.authName }}
                 </el-tag>
@@ -49,7 +58,16 @@
                     <el-tag
                       type="success"
                       closable
-                      @close="removeRightById(scope.row, item1.children, index2)"
+                      @close="
+                        removeRightById(
+                          scope.row,
+                          item2.id,
+                          scope.$index,
+                          index1,
+                          index2,
+                          index3
+                        )
+                      "
                     >
                       {{ item2.authName }}
                     </el-tag>
@@ -62,7 +80,16 @@
                       v-for="(item3, index3) in item2.children"
                       :key="index3"
                       closable
-                      @close="removeRightById(scope.row, item2.children, index3)"
+                      @close="
+                        removeRightById(
+                          scope.row,
+                          item3.id,
+                          scope.$index,
+                          index1,
+                          index2,
+                          index3
+                        )
+                      "
                     >
                       {{ item3.authName }}
                     </el-tag>
@@ -167,15 +194,8 @@
       @close="setRightDialogClosed"
     >
       <!--分配权限主体部分 树形控件 -->
-      <el-tree
-        :data="rightstree"
-        :props="treetProps"
-        show-checkbox
-        node-key="id"
-        default-expand-all
-        :default-checked-keys="defkeys"
-        ref="treeRef"
-      ></el-tree>
+      <el-tree :data="rightstree" :props="treetProps"  show-checkbox node-key="id" default-expand-all
+      :default-checked-keys="defkeys" ref="treeRef"></el-tree>
       <!--分配权限 底部 取消 确定 -->
       <span slot="footer" class="dialog-footer">
         <el-button @click="setRightDialogVisible = false">取 消</el-button>
@@ -228,17 +248,15 @@ export default {
         roleDesc: [{ required: true, message: "描述不能为空", trigger: "blur" }],
       },
       // 控制分配权限对话框的显示与隐藏
-      setRightDialogVisible: false,
+      setRightDialogVisible:false,
       // 树形控件的属性绑定对象
-      treetProps: {
-        label: "authName",
-        children: "children",
+      treetProps:{
+        label:'authName',
+        children: 'children',
       },
       // 默认选中的节点id数组
-      defkeys: [],
-      roleId: "",
-      roleIda: "",
-      rightId: "",
+      defkeys:[],
+      roleId:''
     };
   },
   methods: {
@@ -323,72 +341,80 @@ export default {
         this.getRoles();
       }
     },
-    // 通过id删除指定权限的请求
-    del() {
-      this.deleRolesLimit({
-        roleId: this.roleIda,
-        rightId: this.rightId,
-      });
-    },
     // 根据id 删除对应的权限
-    removeRightById(row, item, index) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          console.log(row, item, index);
-          this.roleIda = row.id;
-          this.rightId = item[index].id;
-          item.splice(index, 1);
-          this.del();
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
-        });
+    async removeRightById(roleId, rightId, id, ri, i, ia) {
+      // console.log("xid", roleId.id);
+      // console.log("juti", rightId);
+      // console.log("a", id);
+      // console.log("one", ri);
+      // console.log("two", i);
+      console.log("three", ia);
+      // 弹框提示用户是否要删除
+      const confirmResult = await this.$confirm(
+        "此操作将永久删除该文件, 是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).catch((err) => err);
+
+      if (confirmResult !== "confirm") {
+        return this.$message.info("取消了删除！");
+      } else {
+        let obj = {
+          roleId: roleId.id,
+          rightId: rightId,
+          one: ri,
+          a: id,
+          two: i,
+          three: ia,
+        };
+        console.log(obj);
+        this.deleRolesLimit(obj);
+        // this.getRoles();
+      }
     },
     //展示分配权限
     showSetRightDialog(role) {
-      this.roleId = role.id;
+      this.roleId = role.id
       // 获取所有权限的数据
-      this.getRightsTree();
+      this.getRightsTree()
       // 递归获取三级节点的id
-      this.getLeafKeys(role, this.defkeys);
+      this.getLeafKeys(role,this.defkeys)
       this.setRightDialogVisible = true;
     },
     //通过递归的形式，获取角色下所有三级权限的id，并保存到defkeys数组中
-    getLeafKeys(node, arr) {
+    getLeafKeys(node,arr){
       // 如果当前node 节点不包含 children 属性 ，则是三级节点
-      if (!node.children) {
-        return arr.push(node.id);
+      if(!node.children){
+        return arr.push(node.id)
       }
-      node.children.forEach((item) => {
-        this.getLeafKeys(item, arr);
-      });
+      node.children.forEach(item=>{
+        this.getLeafKeys(item,arr)
+      })
     },
     // 监听分配权限对话框的关闭事件
-    setRightDialogClosed() {
-      this.defkeys = [];
+    setRightDialogClosed(){
+      this.defkeys=[]
     },
     // 点击为角色分配权限
-    allotRights() {
-      const keys = [
+    allotRights(){
+      const keys =[
         ...this.$refs.treeRef.getCheckedKeys(),
-        ...this.$refs.treeRef.getHalfCheckedKeys(),
-      ];
-      // console.log(rightstree);
+        ...this.$refs.treeRef.getHalfCheckedKeys()
+      ]
       console.log(keys);
-      const idStr = keys.join(",");
+      const idStr = keys.join(',')
       // console.log(typeof( idStr))
       // console.log({roleId:this.roleId, rids:idStr});
-      this.roleAuthor({ roleId: this.roleId, rids: idStr });
+      this.roleAuthor({roleId:this.roleId,rids:idStr})
       // 重新调初次进来的接口请求 刷新渲染页面
-      this.getRoles();
+       this.getRoles();
     },
+    
+    
   },
 
   mounted() {
@@ -397,7 +423,7 @@ export default {
   watch: {},
   computed: {
     //展开运算得到vuex中state的对应方法的值显示出来
-    ...userState(["roles", "updateUser", "rightstree"]),
+    ...userState(["roles", "updateUser","rightstree"]),
   },
 };
 </script>

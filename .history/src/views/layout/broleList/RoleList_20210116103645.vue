@@ -237,7 +237,6 @@ export default {
       // 默认选中的节点id数组
       defkeys: [],
       roleId: "",
-      roleIda: "",
       rightId: "",
     };
   },
@@ -323,10 +322,9 @@ export default {
         this.getRoles();
       }
     },
-    // 通过id删除指定权限的请求
     del() {
       this.deleRolesLimit({
-        roleId: this.roleIda,
+        roleId: this.roleId,
         rightId: this.rightId,
       });
     },
@@ -339,10 +337,10 @@ export default {
       })
         .then(() => {
           console.log(row, item, index);
-          this.roleIda = row.id;
-          this.rightId = item[index].id;
-          item.splice(index, 1);
-          this.del();
+          // this.roleId = row.id;
+          // this.rightId = item[index].id;
+          // item.splice(index, 1);
+          // this.del();
         })
         .catch(() => {
           this.$message({

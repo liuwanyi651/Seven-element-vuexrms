@@ -237,8 +237,6 @@ export default {
       // 默认选中的节点id数组
       defkeys: [],
       roleId: "",
-      roleIda: "",
-      rightId: "",
     };
   },
   methods: {
@@ -323,33 +321,36 @@ export default {
         this.getRoles();
       }
     },
-    // 通过id删除指定权限的请求
-    del() {
-      this.deleRolesLimit({
-        roleId: this.roleIda,
-        rightId: this.rightId,
-      });
+    del(){
+            //   // this.deleRolesLimit({
+      //   //   roleId:row.id,
+      //   //   rightId:item3
+      //   // });
     },
     // 根据id 删除对应的权限
-    removeRightById(row, item, index) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+     removeRightById(row, item, index) {
+      console.log(row, item, index);
+      弹框提示用户是否要删除
+      this.$confirm(
+        "此操作将永久删除该文件, 是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).then(()=>{
+
+      }).catch(()=>{
+this.$message.info("取消了删除！")
       })
-        .then(() => {
-          console.log(row, item, index);
-          this.roleIda = row.id;
-          this.rightId = item[index].id;
-          item.splice(index, 1);
-          this.del();
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
-        });
+      // .catch((err) => err);
+      // if (confirmResult !== "confirm") {
+      //   return ;
+      // } else {
+      //   item2.children.splice(index,1)
+
+      // }
     },
     //展示分配权限
     showSetRightDialog(role) {
